@@ -1,7 +1,7 @@
 # punk.AnimatedTilemap
 An extended Tilemap class that allows defining animated tiles in Flash- and HaxePunk.
 
-I really needed animated tilemaps in my project so I wrote this quick addon to make it as easy as possible. It mostly works with an array that store the different tile animations (with frames, framerate, timer and such) and the setTile() function.
+I really needed animated tilemaps in my project so I wrote this quick addon to make it as easy as possible. It mostly works with an array that stores the different tile animations (with frames, framerate, timer and such) and the setTile() function.
 
 The end result looks something like this:
 
