@@ -47,8 +47,6 @@ class AnimatedTilemap extends Tilemap
 				
 				_anims[a][3] += (HXP.fixed ? _anims[a][1] / HXP.assignedFrameRate : _anims[a][1] * HXP.elapsed) * rate;
 				
-				HXP.log(Std.string(_anims));
-				
 				if (_anims[a][3] >= 1)
 				{
 					while (_anims[a][3] >= 1)
@@ -89,7 +87,6 @@ class AnimatedTilemap extends Tilemap
 	public function animate(frames:Array<Int>, frameRate:Float = 0):Void
 	{
 		
-		HXP.log("test");		
 		// Search through tilemap for all tiles that need to be animated and mark them down in array
 		
 		var x:Int; var y:Int;
