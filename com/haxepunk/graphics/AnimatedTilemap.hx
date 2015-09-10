@@ -1,7 +1,6 @@
 package com.haxepunk.graphics;
 
 import com.haxepunk.Graphic.TileType;
-import com.haxepunk.graphics.Animation;
 import com.haxepunk.graphics.Tilemap;
 import com.haxepunk.HXP;
 
@@ -17,7 +16,17 @@ class AnimatedTilemap extends Tilemap
 	 */
 	public var rate:Float;
 	
-
+	/**
+	 * Constructor.
+	 * @param	tileset				The source tileset image.
+	 * @param	width				Width of the tilemap, in pixels.
+	 * @param	height				Height of the tilemap, in pixels.
+	 * @param	tileWidth			Tile width.
+	 * @param	tileHeight			Tile height.
+	 * @param	tileSpacingWidth	Tile horizontal spacing.
+	 * @param	tileSpacingHeight	Tile vertical spacing.
+	 * @param	opaqueTiles			Indicates if this tileset contains only opaque tiles (defaults to true). Only used in Flash .
+	 */
 	public function new(tileset:TileType, width:Int, height:Int, tileWidth:Int, tileHeight:Int, ?tileSpacingWidth:Int=0, ?tileSpacingHeight:Int=0, ?opaqueTiles:Bool=true) 
 	{
 		
@@ -33,40 +42,35 @@ class AnimatedTilemap extends Tilemap
 	override public function update()
 	{
 		
-		
 		if (_anims != null)
 		{
 			var a:Int;
 			//go through each animation in _anims array
 			for (a in 0..._anims.length)
 			{
-				//_anims[a][1] == frame rate
-				//_anims[a][2] == tiles array
-				//_anims[a][3] == timer for animation
-				//_anims[a][4] == index of current frame
 				
-				_anims[a][3] += (HXP.fixed ? _anims[a][1] / HXP.assignedFrameRate : _anims[a][1] * HXP.elapsed) * rate;
+				_anims[a]._timer += (HXP.fixed ? _anims[a]._frameRate / HXP.assignedFrameRate : _anims[a]._frameRate * HXP.elapsed) * rate;
 				
-				if (_anims[a][3] >= 1)
+				if (_anims[a]._timer >= 1)
 				{
-					while (_anims[a][3] >= 1)
+					while (_anims[a]._timer >= 1)
 					{
-						_anims[a][3] -= 1;
-						_anims[a][4] += 1; //increase frame index
+						_anims[a]._timer -= 1;
+						_anims[a]._index += 1; //increase frame index
 						
 						//if last index -> go back to first frame (loop)
-						if (_anims[a][4] == _anims[a][0].length)
+						if (_anims[a]._index == _anims[a]._frames.length)
 						{
-							_anims[a][4] = 0;
+							_anims[a]._index = 0;
 						}
 					}
 					
 					var b:Int;
 					//for each tile that needs to be animated
-					for (b in 0..._anims[a][2].length)
+					for (b in 0..._anims[a]._tiles.length)
 					{
-						setTile(Std.int(_anims[a][2][b] % columns), Std.int(_anims[a][2][b] / columns), _anims[a][0][_anims[a][4]]);
-						//I don't even...
+						setTile(Std.int(_anims[a]._tiles[b] % columns), Std.int(_anims[a]._tiles[b] / columns), _anims[a]._frames[_anims[a]._index]);
+						//I don't even...	
 					}
 					
 					
@@ -88,10 +92,8 @@ class AnimatedTilemap extends Tilemap
 	{
 		
 		// Search through tilemap for all tiles that need to be animated and mark them down in array
-		
 		var x:Int; var y:Int;
 		var tiles:Array<Int> = new Array();
-		trace(rows + " rc " + columns);
 		for (y in 0...rows)
 		{
 			for (x in 0...columns)
@@ -101,17 +103,36 @@ class AnimatedTilemap extends Tilemap
 			}
 		}
 		
-		var timer:Float = 0;
-		var index:Int = 0;
-		
 		// Add to _anims array
-		var temparray:Array<Dynamic> = [frames, frameRate, tiles, timer, index]; 
-		_anims.push(temparray);
+		_anims.push(new Animation(frames, frameRate, tiles));
 		
 	}
 	
-	//Create an array of all the animations Array
-	private var _anims:Array<Array<Dynamic>> = new Array();
+	//Create an array to hold all the animations
+	private var _anims:Array<Animation> = new Array();
 	
 	
+}
+
+private class Animation
+{
+    public var _frames:Array<Int>;
+    public var _frameRate:Float;
+    public var _tiles:Array<Int>;
+	public var _timer:Float;
+	public var _index:Int;
+
+	/**
+	 * Little helper class for defining animations.
+	 */
+    public function new(frames:Array<Int>, frameRate:Float, tiles:Array<Int>)
+    {
+        _frames = frames;
+		_frameRate = frameRate;
+		_tiles = tiles;
+		_timer = 0;
+		_index = 0;
+
+    }
+
 }
