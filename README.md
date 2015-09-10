@@ -1,13 +1,13 @@
 # punk.AnimatedTilemap
 An extended Tilemap class that allows defining animated tiles in Flash- and HaxePunk.
 
-I really needed a simple class for a game project that enabled me to use animations in my level graphic. It's basicly a bit of a Frankenstein's monster of the Tilemap and Spritemap class, but it does the job.
+I really needed animated tilemaps in my project so I wrote this quick addon to make it as easy as possible. It mostly works with Arrays that store the different tile animations (frames, framerate, timer and such) and the setTile() function.
 
 The end result looks something like this:
 
 ![alt-text](https://cloud.githubusercontent.com/assets/2915643/9775750/0134a508-5752-11e5-90c5-a9740392f60b.gif "This could be your game!")
 
-Also figuring out how the hell this github thing works..
+Also figuring out how the hell this github thing works...
 
 
 ## Features
@@ -47,7 +47,7 @@ When you want to draw some animated flowers or water in your level, make sure to
 Now to create the tilemap in your game, instead of adding a normal Tilemap, **make an AnimatedTilemap**:
 
 ```haxe
-var tilemap:AnimatedTilemap = new AnimatedTilemap("assets/your_tileset.png", 256, 96, 32, 32);
+var tilemap:AnimatedTilemap = new AnimatedTilemap("your_tileset.png", 256, 96, 32, 32);
 
 addGraphic(tilemap);
 ```
@@ -64,9 +64,9 @@ tilemap.animate([8, 9, 10, 11], 1);
 
 This syntax is really similar to Spritemaps, where the **first parameter is an Array of frames** that you want as your animation and the **second parameter is the framerate** at which to play the animation.
 
-The frame index also works just like it does with Spritemaps, basicly you just count all the frames in your tileset starting at 0 and you get which frame index your animation is at.
+The frame index also works just like it does with Spritemaps, basicly you imagine every tile in your tileset as a frame in a Spritemap. 
 
-So if you wanted to also add the water animation, first look at the tileset (Okay, the water animation has 3 frames) and count at which index the frames are (The first frame starts at index 16) and:
+So if you wanted to also add the water animation, you see the tile is at the 16th position in the tileset and has 3 frames:
 
 ```haxe
 tilemap.animate([16, 17, 18], 1);
@@ -78,15 +78,13 @@ You can add as many animations as you want! (But you should probably not overdo 
 
 And that's it already!
 
-The animations will start automatically when the AnimatedTilemap is added and will loop on their own. Pretty easy.
+The animations **will start automatically** when the AnimatedTilemap is added and **will loop on their own**. Pretty easy.
 
 
-## Issues and Credits
+## My code is horrible and I'm a horrible person
 
-My code is horrible and I am a horrible person.
+If you have any suggestions on how to improve this, for example performance-wise, please let me know or create a pull request or something. I searched very long for a method to do this and just wanted to share it with anyone that could use it, but I am certain there is lots of room for improvement.
 
-If you have any suggestions on how to improve this, for example performance-wise, please let me know or create a pull request or something. I just wanted to share this with anyone that could use it and I am certain there is lots of room for improvement.
-
-If you have any questions how to use this or maybe ideas for new features please let me know as well!
+If you have any questions how to use the class or maybe ideas for new features please let me know as well!
 
 voec at posteo dot net
