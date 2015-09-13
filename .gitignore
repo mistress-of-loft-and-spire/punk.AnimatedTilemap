@@ -1,0 +1,13 @@
+ Ignore everything
+*
+
+# But not these files...
+!.gitignore
+!README.md
+!LICENSE
+!AnimatedTilemap.as
+!AnimatedTile.hx
+# etc...
+
+# ...even if they are in subdirectories
+!*/

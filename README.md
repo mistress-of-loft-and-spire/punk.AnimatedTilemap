@@ -81,7 +81,13 @@ And that's it already!
 The animations **will start automatically** when the AnimatedTilemap is added and **will loop on their own**. Pretty easy.
 
 
-## My code is horrible and I'm a horrible person
+## Credits + Contact
+
+Many thanks to the following people:
+
+* @matrefeytontias for the initial suggestion and the input via mail.
+* @jacobalbano for the feedback and ideas
+* All the cool people of the *Punk communities!
 
 If you have any suggestions on how to improve this, for example performance-wise, please let me know or create a pull request or something. I searched very long for a method to do this and just wanted to share it with anyone that could use it, but I am certain there is lots of room for improvement.
 
