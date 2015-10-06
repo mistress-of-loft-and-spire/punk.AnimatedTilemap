@@ -39,44 +39,106 @@ package net.flashpunk.graphics
 		override public function update():void
 		{
 			
-			if (_anims != null)
+			//go through each animation in _anims array
+			for (var a:int = 0; a < _anims.length; a++)
 			{
 				
-				//go through each animation in _anims array
-				for (var a:int = 0; a < _anims.length; a++)
+				_anims[a]._timer += (FP.fixed ? _anims[a]._frameRate / FP.assignedFrameRate : _anims[a]._frameRate * FP.elapsed) * rate;
+				
+				if (_anims[a]._timer >= 1)
 				{
-					
-					_anims[a]._timer += (FP.fixed ? _anims[a]._frameRate / FP.assignedFrameRate : _anims[a]._frameRate * FP.elapsed) * rate;
-					
-					if (_anims[a]._timer >= 1)
+					while (_anims[a]._timer >= 1)
 					{
-						while (_anims[a]._timer >= 1)
-						{
-							_anims[a]._timer -= 1;
-							_anims[a]._index += 1; //increase frame index
-							
-							//if last index -> go back to first frame (loop)
-							if (_anims[a]._index == _anims[a]._frames.length)
-							{
-								_anims[a]._index = 0;
-							}
-						}
+						_anims[a]._timer -= 1;
+						_anims[a]._index += 1; //increase frame index
 						
-						//for each tile that needs to be animated
-						for (var b:int = 0; b < _anims[a]._tiles.length; b++)
+						//if last index -> go back to first frame (loop)
+						if (_anims[a]._index == _anims[a]._frames.length)
 						{
-							setTile(int(_anims[a]._tiles[b] % columns), int(_anims[a]._tiles[b] / columns), _anims[a]._frames[_anims[a]._index]);
-							//I don't even...
-							
+							_anims[a]._index = 0;
 						}
-						
+					}
+					
+					//for each tile that needs to be animated
+					for (var b:int = 0; b < _anims[a]._tiles.length; b++)
+					{
+						super.setTile(int(_anims[a]._tiles[b] % columns), int(_anims[a]._tiles[b] / columns), _anims[a]._frames[_anims[a]._index]);
+						//I don't even...
 						
 					}
+					
+					
 				}
 			}
 			
 			super.update();
 			
+			
+		}
+		
+		/**
+		 * Sets the index of the tile at the position.
+		 * @param	column		Tile column.
+		 * @param	row			Tile row.
+		 * @param	index		Tile index from the tileset to show. (Or -1 to show the tile as blank.)
+		 */
+		override public function setTile(column:uint, row:uint, index:uint = 0):void
+		{
+			
+			//Overriding setTile() function to check if any added tiles should be animated when adding them after using animate()
+			//Also checking if any already animated tiles have been replaced
+			
+			super.setTile(column, row, index);
+			
+			column %= columns;
+			row %= rows;
+			
+			var a:int = 0;   
+			var b:int = 0;   
+			
+			//go through each animation in _anims array
+			while (a < _anims.length)
+			{
+				
+				//check each tile for matches
+				while (b < _anims[a]._tiles.length)
+				{
+					
+					if (_anims[a]._tiles[b] == column + (row * columns))
+					{
+						//remove them from array -> animated tile has been replaced!
+						_anims[a]._tiles.splice(b, 1);
+					}
+					else
+					{
+						b++;
+					}
+					
+				}
+				
+				b = 0;
+				
+				if (_anims[a]._tiles.length == 0)
+				{
+					//remove _anims array if all animations have been removed
+					_anims.splice(a, 1);
+				}
+				else if (_anims[a]._frames[0] == index)
+				{
+					//add tile to array -> new tile is part of an animation!
+					_anims[a]._tiles.push(column + (row * columns));
+					
+					//set tile to correct frame
+					super.setTile(column, row, _anims[a]._frames[_anims[a]._index]);
+					
+					a++;
+				}
+				else
+				{
+					a++;
+				}
+				
+			}	
 			
 		}
 		
