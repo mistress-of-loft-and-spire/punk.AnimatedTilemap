@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+	<meta title="AnimatedTilemapHaxe" package="AnimatedTilemapHaxe" version="1.0.0" company="voec" />
+
+	<!-- output -->
+ 	<app file="AnimatedTilemapHaxe" main="Main" path="bin" />
+
+	<window fps="60" background="0x333333" />
+	<window width="1024" height="1024" resizable="true" unless="mobile" />
+	<window fullscreen="true" if="mobile" />
+	<window orientation="landscape" vsync="true" antialiasing="0" if="cpp" />
+
+	<source path="src" />
+
+	<!-- classpath, haxe libs -->
+	<haxelib name="HaxePunk" />
+
+	<!-- assets -->
+	<assets path="src" rename="src" include="*.png|*.jpg" />
+
+	<icon path="assets/HaxePunk.svg" />
+</project>

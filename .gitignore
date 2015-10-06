@@ -7,7 +7,15 @@
 !LICENSE
 !AnimatedTilemap.as
 !AnimatedTile.hx
+!example/src/Main.hx
+!example/src/Main.as
+!example/src/tileset.png
+!example/AnimatedTilemapFlash.as3proj
+!example/AnimatedTilemapHaxe.hxproj
+!example/project.xml
+
 # etc...
 
 # ...even if they are in subdirectories
 !*/
+example/src/net/flashpunk/graphics/AnimatedTilemap.as
